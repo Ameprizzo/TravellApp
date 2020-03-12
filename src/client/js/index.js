@@ -1,10 +1,24 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../css/style.scss';
+import '../styles/main.scss';
+import '../styles/util.scss';
 import 'bootstrap';
 const $ = require("jquery");
-import { getCity, getTripStart, getTripEnd } from './utils'
-import { getGeoLocation, getWeatherForecast, getImageURL, getCountryInfo } from './request';
-import { showModal, displayTrip } from './ui';
+import 'popper.js'
+import {
+  getCity,
+  getTripStart,
+  getTripEnd
+} from './utils'
+import {
+  getGeoLocation,
+  getWeatherForecast,
+  getImageURL,
+  getCountryInfo
+} from './request';
+import {
+  showModal,
+  displayTrip
+} from './ui';
 
 const trip = {};
 
@@ -41,12 +55,15 @@ const handleSave = async (e) => {
   e.preventDefault();
 
   try {
-    const response = await fetch('http://localhost:8080/save',
-      {
-        method: 'POST',
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ trip: trip })
-      });
+    const response = await fetch('http://localhost:8080/save', {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        trip: trip
+      })
+    });
     if (response.ok) {
       const jsonRes = await response.json();
       displayTrip(jsonRes);

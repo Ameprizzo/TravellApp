@@ -11,7 +11,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 module.exports = {
     mode: 'development',
     devtool: 'source-map',
-    entry: './src/client/index.js',
+    entry: './src/client/js/index.js',
     output: {
         libraryTarget: 'var',
         library: 'Client'
@@ -37,6 +37,16 @@ module.exports = {
             }, {
                 test: /\.(jpg|png|svg|jpg|gif)$/,
                 loader: 'file-loader'
+            },
+            {
+                test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].[ext]',
+                        outputPath: 'fonts/'
+                    }
+                }]
             }
         ]
     },

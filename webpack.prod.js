@@ -7,7 +7,7 @@ const TerserPlugin = require('terser-webpack-plugin')
 const WorkboxPlugin = require('workbox-webpack-plugin');
 
 module.exports = {
-    entry: './src/client/index.js',
+    entry: './src/client/js/index.js',
     mode: 'production',
     output: {
         libraryTarget: 'var',
@@ -33,6 +33,16 @@ module.exports = {
             {
                 test: /\.(jpg|png|svg|jpg|gif)$/,
                 loader: 'file-loader'
+            },
+            {
+                test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].[ext]',
+                        outputPath: 'fonts/'
+                    }
+                }]
             }
         ]
     },
