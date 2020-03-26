@@ -1,43 +1,51 @@
-const path = require("path")
+const path = require('path')
 const webpack = require('webpack')
-const HtmlWebPackPlugin = require('html-webpack-plugin')
+const HtmlWebPackPlugin = require("html-webpack-plugin")
 const {
     CleanWebpackPlugin
 } = require('clean-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 
 
 module.exports = {
+    entry: './src/client/index.js',
     mode: 'development',
     devtool: 'source-map',
-    entry: './src/client/js/index.js',
+
     output: {
-        libraryTarget: 'var',
-        library: 'Client'
+        filename: 'main.js',
+        path: path.resolve(__dirname, 'dist')
     },
+
+
     module: {
         rules: [{
-                test: /\.js$/,
+                test: '/\.js$/',
                 exclude: /node_modules/,
                 loader: "babel-loader"
             },
             {
-                test: /\.css$/,
-                use: ['style-loader', 'css-loader']
-            }, {
-                test: /\.(scss)$/,
-                use: [{
-                    loader: 'style-loader', // inject CSS to page
-                }, {
-                    loader: 'css-loader', // translates CSS into CommonJS modules
-                }, {
-                    loader: 'sass-loader' // compiles Sass to CSS
-                }]
-            }, {
-                test: /\.(jpg|png|svg|jpg|gif)$/,
-                loader: 'file-loader'
+                test: /\.scss$/,
+                use: ['style-loader', 'css-loader', 'sass-loader']
             },
+            // {
+            //     test: /\.(jpg|png|svg|jpg|gif)$/,
+            //     loader: 'file-loader'
+            // },
+            {
+                test: /\.(png|jpg|gif)$/i,
+                use: [{
+                    loader: 'url-loader',
+                    options: {
+                        limit: 8192,
+                    },
+                }, ],
+            },
+            {
+                test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                loader: "url-loader?limit=10000&mimetype=application/font-woff"
+            },
+
             {
                 test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
                 use: [{
@@ -55,7 +63,6 @@ module.exports = {
             template: "./src/client/views/index.html",
             filename: "./index.html",
         }),
-        new BundleAnalyzerPlugin(),
         new CleanWebpackPlugin({
             // Simulate the removal of files
             dry: true,
@@ -64,7 +71,10 @@ module.exports = {
             // Automatically remove all unused webpack assets on rebuild
             cleanStaleWebpackAssets: true,
             protectWebpackAssets: false
-        })
-    ]
+        }),
 
+
+
+
+    ]
 }
